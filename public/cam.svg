@@ -1,0 +1,13 @@
+<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  {/* Graduation Cap Base */}
+  <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
+  <path d="M25 53V70C25 70 35 75 50 75C65 75 75 70 75 70V53" stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+  
+  {/* Tassel */}
+  <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+
+  {/* Camera Aperture / Lens (The "Media" Element) */}
+  <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
+  <circle cx="50" cy="45" r="12" stroke="#f59e0b" strokeWidth="3" strokeDasharray="6 4" />
+  <circle cx="50" cy="45" r="4" fill="#1e293b" />
+</svg>
