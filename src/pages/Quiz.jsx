@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useQuiz } from "../context/QuizContext";
-import { useAuth } from "../context/AuthContext";
 import { buildOptions } from "../lib/helpers";
 import AnswerOption from "../components/AnswerOption";
 import Timer from "../components/Timer";
@@ -11,7 +10,7 @@ import SubmitModal from "../components/SubmitModal";
 
 export default function Quiz() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  
 
   const {
     questions,
@@ -63,7 +62,6 @@ export default function Quiz() {
   return (
     <div className="h-screen flex flex-col bg-slate-50 font-sans text-slate-900 overflow-hidden">
       
-      {/* ── PERSISTENT HEADER ────────────────── */}
       <header className="bg-white border-b border-slate-200 shadow-sm z-30">
         <ProgressBar
           answered={answeredCount}
@@ -73,7 +71,7 @@ export default function Quiz() {
         
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Timer totalSeconds={secondsLeft} paused={true} />
+            <Timer totalSeconds={secondsLeft}  />
             <div className="h-6 w-[1px] bg-slate-200 hidden sm:block" />
             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest tabular-nums">
               Question <span className="text-blue-600 text-sm">{currentIndex + 1}</span> of {questions.length}
@@ -92,11 +90,11 @@ export default function Quiz() {
         </div>
       </header>
 
-      {/* ── MAIN EXAM AREA ──────────────────── */}
+      
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto px-6 py-10">
           
-          {/* Metadata Badges */}
+
           <div className="flex items-center gap-2 mb-6">
             <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded border ${
               currentQuestion.difficulty === "easy" ? "bg-emerald-50 text-emerald-700 border-emerald-100" :
@@ -110,7 +108,7 @@ export default function Quiz() {
             </span>
           </div>
 
-          {/* Question Display */}
+
           <div className="mb-10">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-800 leading-relaxed">
               <span className="text-blue-600 mr-3 font-black select-none opacity-50">{currentIndex + 1}.</span>
@@ -118,7 +116,7 @@ export default function Quiz() {
             </h2>
           </div>
 
-          {/* Response Selection */}
+
           <div className="grid grid-cols-1 gap-3 mb-12">
             {["A", "B", "C", "D"].map((letter) => {
               if (!options[letter]) return null;
@@ -136,7 +134,7 @@ export default function Quiz() {
         </div>
       </main>
 
-      {/* ── FOOTER CONTROLS ─────────────────── */}
+      
       <footer className="bg-white border-t border-slate-200 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <div className="flex gap-2">
@@ -166,7 +164,7 @@ export default function Quiz() {
         </div>
       </footer>
 
-      {/* Overlays */}
+      
       <QuestionGrid
         open={gridOpen}
         total={questions.length}

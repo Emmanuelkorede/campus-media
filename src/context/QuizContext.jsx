@@ -4,46 +4,16 @@ import {
   useEffect, useCallback, useRef,
 } from "react";
 import { supabase } from "../lib/supabase";
-import { shuffleArray, pickQuestions, scoreSummary } from "../lib/helpers";
+import {  pickQuestions, scoreSummary } from "../lib/helpers";
 import { useAuth } from "./AuthContext";
 
-// ─────────────────────────────────────────────
-//  QUIZ CONTEXT
-//
-//  Manages everything about an active test:
-//    - fetching & shuffling questions
-//    - tracking which answer the user picked
-//    - the countdown timer
-//    - submitting and saving results to Supabase
-//
-//  Wrap only the quiz pages in <QuizProvider>
-//  (or wrap the whole app — it's stateless when
-//  no test is running so either is fine).
-//
-//  Read state with useQuiz():
-//    questions      – array of question objects for this test
-//    currentIndex   – 0-based index of the visible question
-//    answers        – Map { questionId → "A"|"B"|"C"|"D" }
-//    secondsLeft    – live countdown value
-//    status         – "idle" | "loading" | "active" | "submitted"
-//    result         – summary object after submission (or null)
-//    error          – string | null
-//
-//  Call these:
-//    startTest(subjectSlugs, questionCount, durationSecs)
-//    selectAnswer(questionId, letter)
-//    goToQuestion(index)
-//    nextQuestion()
-//    prevQuestion()
-//    submitTest()
-// ─────────────────────────────────────────────
+
 
 const QuizContext = createContext(null);
 
 export function QuizProvider({ children }) {
   const { user } = useAuth();
 
-  // ── Core state ────────────────────────────
   const [questions,     setQuestions]     = useState([]);
   const [currentIndex,  setCurrentIndex]  = useState(0);
   const [answers,       setAnswers]       = useState({});     // { [questionId]: "A"|"B"|"C"|"D" }
@@ -62,10 +32,7 @@ export function QuizProvider({ children }) {
     return () => clearInterval(timerRef.current);
   }, []);
 
-  // ── START TEST ────────────────────────────
-  // subjectSlugs  – e.g. ["english", "biology", "chemistry", "physics"]
-  // questionCount – total questions to serve (e.g. 160)
-  // durationSecs  – timer seconds (e.g. 2700 = 45 min)
+  
   const startTest = useCallback(async (subjectSlugs, questionCount, durationSecs) => {
     setStatus("loading");
     setError(null);
@@ -73,7 +40,7 @@ export function QuizProvider({ children }) {
     setAnswers({});
     setCurrentIndex(0);
 
-    // Fetch questions for all selected subjects
+    
     const { data, error: fetchErr } = await supabase
       .from("questions")
       .select("id, subject, question_text, option_a, option_b, option_c, option_d, correct_option, explanation, difficulty")
@@ -85,12 +52,12 @@ export function QuizProvider({ children }) {
       return;
     }
 
-    // Shuffle and cap at questionCount
+    
     const picked = pickQuestions(data, questionCount);
     setQuestions(picked);
     setSubjectNames([...new Set(picked.map((q) => q.subject))]);
 
-    // Start timer
+
     setSecondsLeft(durationSecs);
     setTotalDuration(durationSecs);
     clearInterval(timerRef.current);

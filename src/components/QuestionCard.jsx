@@ -1,21 +1,4 @@
-// TODO
-// ─────────────────────────────────────────────
-//  QUESTION CARD
-//  Displays a single question with its options.
-//  Handles selection, correct/wrong reveal after submit.
-//
-//  Props:
-//    questionNumber  – current Q number (1-based)
-//    totalQuestions  – total Qs in the test
-//    subject         – subject name string e.g. "Biology"
-//    difficulty      – "easy" | "medium" | "hard"
-//    questionText    – the question string
-//    options         – object: { A: "...", B: "...", C: "...", D: "..." }
-//    selected        – the letter the user picked ("A"–"D" | null)
-//    correctOption   – revealed after submit ("A"–"D" | null)
-//    onSelect        – fn(letter) called when user picks an option
-//    reviewMode      – bool, shows correct/wrong colours (Results page)
-// ─────────────────────────────────────────────
+
 
 const DIFFICULTY_STYLES = {
   easy:   "bg-green-100  text-green-700",
@@ -89,7 +72,7 @@ export default function QuestionCard({
 
       {/* ── Question text ───────────────────── */}
       <p className="text-gray-800 font-semibold text-base sm:text-lg leading-snug mb-6">
-        <span className="text-teal-500 font-black mr-1.5">{questionNumber}.</span>
+        <span className="text-teal-500 font-black mr-1.5">Question {questionNumber} of {totalQuestions}.</span>
         {questionText}
       </p>
 
