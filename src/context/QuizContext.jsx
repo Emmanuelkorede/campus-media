@@ -1,13 +1,10 @@
-// TODO
 import {
   createContext, useContext, useState,
   useEffect, useCallback, useRef,
 } from "react";
 import { supabase } from "../lib/supabase";
-import {  pickQuestions, scoreSummary } from "../lib/helpers";
+import { pickQuestions, scoreSummary } from "../lib/helpers";
 import { useAuth } from "./AuthContext";
-
-
 
 const QuizContext = createContext(null);
 
@@ -32,7 +29,6 @@ export function QuizProvider({ children }) {
     return () => clearInterval(timerRef.current);
   }, []);
 
-  
   const startTest = useCallback(async (subjectSlugs, questionCount, durationSecs) => {
     setStatus("loading");
     setError(null);
@@ -40,7 +36,6 @@ export function QuizProvider({ children }) {
     setAnswers({});
     setCurrentIndex(0);
 
-    
     const { data, error: fetchErr } = await supabase
       .from("questions")
       .select("id, subject, question_text, option_a, option_b, option_c, option_d, correct_option, explanation, difficulty")
@@ -52,12 +47,21 @@ export function QuizProvider({ children }) {
       return;
     }
 
-    
+    // 1. Shuffle and pick the total count
     const picked = pickQuestions(data, questionCount);
-    setQuestions(picked);
-    setSubjectNames([...new Set(picked.map((q) => q.subject))]);
 
+    // 2. NEW: Group by subject (Sorting)
+    const sortedQuestions = [...picked].sort((a, b) => {
+      return a.subject.localeCompare(b.subject);
+    });
 
+    setQuestions(sortedQuestions);
+
+    // 3. Set the subject names in the order they appear
+    const uniqueSubjects = [...new Set(sortedQuestions.map((q) => q.subject))];
+    setSubjectNames(uniqueSubjects);
+
+    // ── Timer logic ──
     setSecondsLeft(durationSecs);
     setTotalDuration(durationSecs);
     clearInterval(timerRef.current);
@@ -65,8 +69,6 @@ export function QuizProvider({ children }) {
       setSecondsLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
-          // Auto-submit when time runs out
-          // We call the ref version to avoid stale closure
           handleAutoSubmit();
           return 0;
         }
@@ -102,7 +104,6 @@ export function QuizProvider({ children }) {
   }, [answers, questions, secondsLeft, totalDuration, user, subjectNames]); // eslint-disable-line
 
   // ── AUTO-SUBMIT (called by timer) ─────────
-  // Uses a ref so it can be called from inside setInterval
   function handleAutoSubmit() {
     clearInterval(timerRef.current);
     saveSession();
@@ -113,7 +114,6 @@ export function QuizProvider({ children }) {
     const summary  = scoreSummary(answers, questions);
     const timeTaken = totalDuration - secondsLeft;
 
-    // 1. Insert session row
     const { data: session, error: sessionErr } = await supabase
       .from("test_sessions")
       .insert({
@@ -132,13 +132,11 @@ export function QuizProvider({ children }) {
       .single();
 
     if (sessionErr || !session) {
-      // Still show results locally even if DB save failed
       setResult({ ...summary, timeTakenSecs: timeTaken, saved: false });
       setStatus("submitted");
       return;
     }
 
-    // 2. Insert individual answer rows (bulk)
     const answerRows = questions.map((q) => ({
       session_id:      session.id,
       question_id:     q.id,
@@ -178,7 +176,6 @@ export function QuizProvider({ children }) {
   const answeredCount    = Object.keys(answers).length;
 
   const value = {
-    // State
     questions,
     currentIndex,
     currentQuestion,
@@ -191,7 +188,6 @@ export function QuizProvider({ children }) {
     result,
     error,
     subjectNames,
-    // Actions
     startTest,
     selectAnswer,
     goToQuestion,
@@ -208,7 +204,6 @@ export function QuizProvider({ children }) {
   );
 }
 
-// ── Hook ──────────────────────────────────────
 export function useQuiz() {
   const ctx = useContext(QuizContext);
   if (!ctx) {
@@ -217,8 +212,6 @@ export function useQuiz() {
   return ctx;
 }
 
-// ── Internal: map slug → display name ─────────
-// Must match the `subject` column values in your DB
 function slugToName(slug) {
   const MAP = {
     english:    "Use of English",

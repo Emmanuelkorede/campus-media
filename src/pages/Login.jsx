@@ -1,4 +1,4 @@
-// TODO
+
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useAuth } from "../context/AuthContext";
@@ -33,10 +33,10 @@ export default function Login() {
   }
 
   return (
-    /* h-screen + overflow-hidden to lock viewport height */
+    
     <div className="h-screen flex flex-col bg-slate-50 relative overflow-hidden font-sans">
       
-      {/* Professional Structural Watermark */}
+
       <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.02]">
         <div className="w-[70vh] h-[70vh] border-[1px] border-blue-900 rounded-full flex items-center justify-center" />
       </div>
@@ -46,11 +46,11 @@ export default function Login() {
 
           <div className="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
             
-            {/* Professional Blue Header Band */}
+            
             <div className="h-1.5 bg-blue-600" />
 
             <div className="px-8 pt-6 pb-8">
-              {/* Back button */}
+              
               <button
                 onClick={() => navigate("/")}
                 className="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center mb-6 transition-all"
@@ -60,19 +60,16 @@ export default function Login() {
                 </svg>
               </button>
 
-              {/* Logo Slot */}
+              
               <div className="flex flex-col items-center mb-6">
                 <div className="mb-4">
-                   {/* PASTE YOUR SVG HERE */}
+
                    <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  {/* Graduation Cap Base */}
   <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
   <path d="M25 53V70C25 70 35 75 50 75C65 75 75 70 75 70V53" stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
   
-  {/* Tassel */}
   <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
 
-  {/* Camera Aperture / Lens (The "Media" Element) */}
   <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
   <circle cx="50" cy="45" r="12" stroke="#f59e0b" strokeWidth="3" strokeDasharray="6 4" />
   <circle cx="50" cy="45" r="4" fill="#1e293b" />
@@ -86,7 +83,7 @@ export default function Login() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {/* Name */}
+                
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
                     Username
@@ -100,7 +97,7 @@ export default function Login() {
                   />
                 </div>
 
-                {/* Password */}
+                
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
                     Password

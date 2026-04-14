@@ -5,10 +5,6 @@ import StreamCard from "../components/StreamCard";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// ─────────────────────────────────────────────
-//  STREAM SELECT PAGE  /stream
-// ─────────────────────────────────────────────
-
 const STREAMS = [
   {
     key: "science",
@@ -49,7 +45,7 @@ export default function StreamSelect() {
   }
 
   return (
-    /* min-h-screen allows scrolling if content exceeds height */
+
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900">
       <Navbar
         username={user?.name}
@@ -58,7 +54,7 @@ export default function StreamSelect() {
 
       <main className="flex-1 w-full max-w-xl mx-auto px-6 py-12">
 
-        {/* Header Section */}
+        
         <div className="text-center mb-10">
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-600 bg-blue-50 px-3 py-1 rounded-md inline-block mb-4 border border-blue-100">
             Step 1: Stream Selection
@@ -71,7 +67,7 @@ export default function StreamSelect() {
           </p>
         </div>
 
-        {/* Stream cards Container */}
+
         <div className="space-y-4 mb-10">
           {STREAMS.map((stream) => (
             <StreamCard
@@ -80,14 +76,14 @@ export default function StreamSelect() {
               description={stream.description}
               subjects={stream.subjects}
               emoji={stream.emoji}
-              /* Ensure StreamCard handles these props with Blue styling */
+              
               selected={selected === stream.key}
               onClick={() => setSelected(stream.key)}
             />
           ))}
         </div>
 
-        {/* Action Button */}
+
         <div className="sticky bottom-8 sm:relative sm:bottom-0">
           <button
             onClick={handleContinue}

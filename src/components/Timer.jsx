@@ -1,12 +1,10 @@
 import React from "react";
 
 export default function Timer({ totalSeconds = 0 }) {
-  // ── Format mm:ss ──────────────────────────
   const mins = Math.floor(totalSeconds / 60);
   const secs = totalSeconds % 60;
   const display = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 
-  // ── Urgency levels ────────────────────────
   const isWarning  = totalSeconds <= 300 && totalSeconds > 60;  // ≤ 5 min
   const isCritical = totalSeconds <= 60;                        // ≤ 1 min
 

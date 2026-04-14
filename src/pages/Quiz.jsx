@@ -10,7 +10,6 @@ import SubmitModal from "../components/SubmitModal";
 
 export default function Quiz() {
   const navigate = useNavigate();
-  
 
   const {
     questions,
@@ -26,6 +25,7 @@ export default function Quiz() {
     nextQuestion,
     prevQuestion,
     submitTest,
+    subjectNames, 
   } = useQuiz();
 
   const [gridOpen, setGridOpen] = useState(false);
@@ -90,11 +90,11 @@ export default function Quiz() {
         </div>
       </header>
 
-      
+
+
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto px-6 py-10">
           
-
           <div className="flex items-center gap-2 mb-6">
             <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded border ${
               currentQuestion.difficulty === "easy" ? "bg-emerald-50 text-emerald-700 border-emerald-100" :
@@ -108,14 +108,12 @@ export default function Quiz() {
             </span>
           </div>
 
-
           <div className="mb-10">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-800 leading-relaxed">
               <span className="text-blue-600 mr-3 font-black select-none opacity-50">{currentIndex + 1}.</span>
               {currentQuestion.question_text}
             </h2>
           </div>
-
 
           <div className="grid grid-cols-1 gap-3 mb-12">
             {["A", "B", "C", "D"].map((letter) => {
@@ -134,7 +132,6 @@ export default function Quiz() {
         </div>
       </main>
 
-      
       <footer className="bg-white border-t border-slate-200 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <div className="flex gap-2">
@@ -164,9 +161,10 @@ export default function Quiz() {
         </div>
       </footer>
 
-      
       <QuestionGrid
         open={gridOpen}
+        questions={questions}
+    subjectNames={subjectNames} 
         total={questions.length}
         currentIndex={currentIndex}
         answeredSet={answeredSet}

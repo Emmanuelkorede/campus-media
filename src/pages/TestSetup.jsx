@@ -84,7 +84,7 @@ export default function TestSetup() {
 
       <main className="flex-1 w-full max-w-xl mx-auto px-6 py-10">
 
-        {/* Professional Header */}
+
         <div className="flex items-center gap-4 mb-8">
           <button
             onClick={() => navigate("/stream")}
@@ -102,7 +102,7 @@ export default function TestSetup() {
           </div>
         </div>
 
-        {/* Modern Segmented Control */}
+        
         <div className="flex bg-slate-200/50 p-1 rounded-xl mb-8 border border-slate-200">
           <button
             onClick={() => setActiveTab("subjects")}

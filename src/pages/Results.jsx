@@ -4,7 +4,6 @@ import { useQuiz } from "../context/QuizContext";
 import { useAuth } from "../context/AuthContext";
 import { buildOptions } from "../lib/helpers";
 import ResultCard from "../components/ResultCard";
-import Leaderboard from "../components/Leaderboard";
 import AnswerOption from "../components/AnswerOption";
 import Footer from "../components/Footer";
 
@@ -47,19 +46,17 @@ export default function Results() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900">
       
-      {/* ── STICKY TOP BAR ──────────────────── */}
+      
       <header className="w-full bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
         <div className="max-w-xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  {/* Graduation Cap Base */}
   <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
   <path d="M25 53V70C25 70 35 75 50 75C65 75 75 70 75 70V53" stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
   
-  {/* Tassel */}
   <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
 
-  {/* Camera Aperture / Lens (The "Media" Element) */}
+  
   <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
   <circle cx="50" cy="45" r="12" stroke="#f59e0b" strokeWidth="3" strokeDasharray="6 4" />
   <circle cx="50" cy="45" r="4" fill="#1e293b" />
@@ -78,8 +75,7 @@ export default function Results() {
 
       <main className="flex-1 w-full max-w-xl mx-auto px-6 py-10 space-y-8">
 
-        {/* ── 1. PRIMARY RESULT CARD ────────── */}
-        {/* Note: Ensure ResultCard.jsx is also updated to Blue styling */}
+        
         <ResultCard
           username={user?.name ?? "Student"}
           scorePercent={result.percent}
@@ -91,7 +87,7 @@ export default function Results() {
           subjects={subjectNames}
         />
 
-        {/* ── 2. ACTION BUTTONS ─────────────── */}
+        
         <div className="grid grid-cols-1 gap-3">
           <button
             onClick={handleTakeAnother}
@@ -116,7 +112,7 @@ export default function Results() {
           </div>
         </div>
 
-        {/* ── 3. REVIEW ACCORDION ────────────── */}
+        
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all">
           <button
             onClick={() => setReviewOpen((v) => !v)}
@@ -193,10 +189,7 @@ export default function Results() {
           )}
         </div>
 
-        {/* ── 4. LEADERBOARD ────────────────── */}
-        <div className="pb-10">
-          <Leaderboard currentUserId={user?.id} limit={10} />
-        </div>
+        
 
       </main>
 

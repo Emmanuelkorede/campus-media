@@ -72,7 +72,7 @@ export default function Leaderboard({
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden">
       
-      {/* ── HEADER ─────────────────────────── */}
+      
       <div className="px-6 pt-7 pb-5 flex items-center justify-between">
         <div>
           <h3 className="font-black text-slate-800 text-xl tracking-tight">
@@ -87,7 +87,7 @@ export default function Leaderboard({
         </div>
       </div>
 
-      {/* ── LIST ───────────────────────────── */}
+      
       <div className="flex flex-col">
         {loading && Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)}
 
@@ -119,7 +119,7 @@ export default function Leaderboard({
                 ${isMe ? "bg-blue-600 shadow-lg shadow-blue-200 z-10 relative scale-[1.02] rounded-2xl mx-2 my-1" : "hover:bg-slate-50 border-b border-slate-50"}
               `}
             >
-              {/* Rank Badge */}
+
               <div className={`
                 w-7 text-center shrink-0 font-black text-xs tabular-nums
                 ${isMe ? "text-blue-100" : rank <= 3 ? "text-blue-600" : "text-slate-300"}
@@ -127,7 +127,7 @@ export default function Leaderboard({
                 #{rank}
               </div>
 
-              {/* Avatar */}
+
               <div className={`
                 w-10 h-10 rounded-xl shrink-0 flex items-center justify-center font-black text-sm
                 transition-transform duration-500
@@ -136,7 +136,7 @@ export default function Leaderboard({
                 {name[0].toUpperCase()}
               </div>
 
-              {/* Identity */}
+              
               <div className="flex-1 min-w-0">
                 <p className={`text-sm font-extrabold truncate ${isMe ? "text-white" : "text-slate-800"}`}>
                   {name}
@@ -146,7 +146,7 @@ export default function Leaderboard({
                 </p>
               </div>
 
-              {/* Score Stats */}
+              
               <div className="text-right shrink-0">
                 <p className={`text-sm font-black tabular-nums ${isMe ? "text-white" : gradeCls}`}>
                   {Math.round(row.score_percent)}%
@@ -160,7 +160,7 @@ export default function Leaderboard({
         })}
       </div>
 
-      {/* ── FOOTER ─────────────────────────── */}
+      
       <div className="p-6 bg-slate-50/50">
         <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between shadow-sm">
            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">

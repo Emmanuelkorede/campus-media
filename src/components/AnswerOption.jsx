@@ -69,7 +69,7 @@ export default function AnswerOption({
         ${disabled ? "cursor-default" : "cursor-pointer"}
       `}
     >
-      {/* Letter Badge */}
+      
       <span
         className={`
           w-9 h-9 rounded-xl shrink-0
@@ -83,7 +83,7 @@ export default function AnswerOption({
         {letter}
       </span>
 
-      {/* Option Text */}
+      
       <span className={`
         flex-1 text-sm sm:text-base font-bold leading-relaxed transition-colors
         ${state === 'idle' ? 'text-slate-700' : ''}
@@ -91,11 +91,11 @@ export default function AnswerOption({
         {text}
       </span>
 
-      {/* State Feedback Icons */}
+      
       {state === "correct" && <CheckIcon />}
       {state === "wrong"   && <CrossIcon />}
       
-      {/* Subtle selection ring for focus states */}
+      
       {state === "selected" && (
         <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse ml-auto" />
       )}

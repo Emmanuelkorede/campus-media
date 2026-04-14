@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 
-// ─────────────────────────────────────────────
-//  NAVBAR COMPONENT
-// ─────────────────────────────────────────────
+
 
 export default function Navbar({ username = null, onLogout, showLogout = true }) {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -12,19 +10,17 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
 
   return (
     <>
-      {/* ── TOP NAVIGATION ────────────────────────── */}
       <nav className="fixed top-0 left-0 right-0 z-[100] h-18
                       bg-white/80 backdrop-blur-2xl
                       border-b border-slate-200/60 shadow-sm shadow-slate-200/20">
         <div className="max-w-5xl mx-auto h-full px-6
                         flex items-center justify-between">
 
-          {/* Logo & Brand */}
+
           <Link to="/" className="flex items-center gap-3 select-none group">
-            {/* LOGO PLACEHOLDER */}
+
 <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-  {/* Graduation Cap Base */}
 
   <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
 
@@ -32,13 +28,11 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
 
   
 
-  {/* Tassel */}
 
   <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
 
 
 
-  {/* Camera Aperture / Lens (The "Media" Element) */}
 
   <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
 
@@ -58,7 +52,7 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
             </div>
           </Link>
 
-          {/* Actions / Profile Trigger */}
+          
           <div className="flex items-center gap-4">
             {username && (
               <div className="hidden md:flex flex-col items-end">
@@ -80,25 +74,22 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
         </div>
       </nav>
 
-      {/* Spacer */}
       <div className="h-18" />
 
-      {/* ── SIDEBAR DRAWER ────────────────────────── */}
+
       {profileOpen && (
         <div className="fixed inset-0 z-[200] flex justify-end">
-          {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-md animate-in fade-in duration-300"
             onClick={() => setProfileOpen(false)}
           />
 
-          {/* Panel */}
           <aside
             className="relative z-10 w-85 max-w-[85vw] h-full
                        bg-white shadow-[-20px_0_50px_rgba(0,0,0,0.1)] 
                        flex flex-col animate-in slide-in-from-right duration-300"
           >
-            {/* Header / User Info */}
+            
             <div className="p-8 pb-6 flex flex-col items-center">
               <div className="w-full flex justify-end mb-2">
                 <button 
@@ -109,10 +100,8 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
                 </button>
               </div>
 
-              {/* LOGO PLACEHOLDER (LARGE) */}
 <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-  {/* Graduation Cap Base */}
 
   <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
 
@@ -120,13 +109,11 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
 
   
 
-  {/* Tassel */}
 
   <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
 
 
 
-  {/* Camera Aperture / Lens (The "Media" Element) */}
 
   <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
 
@@ -145,7 +132,7 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
             </div>
 
             <div className="flex-1 px-8 space-y-6 overflow-y-auto">
-              {/* Account Status Card */}
+
               {username && (
                 <div className="bg-slate-50 rounded-3xl p-5 border border-slate-100">
                   <div className="flex items-center gap-3 mb-1">
@@ -156,7 +143,7 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
                 </div>
               )}
 
-              {/* Menu Actions */}
+              
               <div className="space-y-3">
                 <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest px-2">Community</p>
                 <a
@@ -186,7 +173,7 @@ export default function Navbar({ username = null, onLogout, showLogout = true })
               </div>
             </div>
 
-            {/* Footer */}
+            
             <div className="p-8 pt-0 mt-auto">
               <div className="border-t border-slate-100 pt-6 text-center">
                 <p className="text-[9px] text-slate-300 font-black uppercase tracking-[0.3em]">

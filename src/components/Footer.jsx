@@ -1,14 +1,10 @@
-// ─────────────────────────────────────────────
-//  FOOTER
-//  A clean, sticky footer for the base layout.
-// ─────────────────────────────────────────────
 
 export default function Footer() {
   return (
     <footer className="w-full mt-auto py-8 px-6 border-t border-slate-100 bg-white/40 backdrop-blur-md">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         
-        {/* Brand Section */}
+        
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center shrink-0 shadow-sm shadow-blue-100">
              <span className="text-white font-black text-[8px]">CM</span>
@@ -21,13 +17,13 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links & Rights */}
+
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
           <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
             © {new Date().getFullYear()} CBT Solution
           </p>
           
-          {/* Subtle separator for desktop */}
+
           <div className="hidden sm:block h-3 w-px bg-slate-100" />
           
           <div className="flex items-center gap-4">

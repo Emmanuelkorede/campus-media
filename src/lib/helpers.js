@@ -1,18 +1,4 @@
-// TODO
-// ─────────────────────────────────────────────
-//  HELPERS
-//  Pure utility functions. No imports needed.
-//  Import whatever you need anywhere:
-//    import { calcGrade, formatTime, shuffleArray } from "../lib/helpers";
-// ─────────────────────────────────────────────
 
-
-// ── 1. GRADE CALCULATOR ───────────────────────
-// Returns a letter grade A–F from a percentage.
-//
-// Usage:
-//   calcGrade(78)   → "B"
-//   calcGrade(45)   → "D"
 
 export function calcGrade(percent) {
   const p = Number(percent);
@@ -25,12 +11,7 @@ export function calcGrade(percent) {
 }
 
 
-// ── 2. GRADE LABEL ────────────────────────────
-// Returns the human-readable label for a grade.
-//
-// Usage:
-//   gradeLabel("A")  → "Excellent"
-//   gradeLabel("F")  → "Needs Improvement"
+
 
 const GRADE_LABELS = {
   A: "Excellent",
@@ -46,12 +27,6 @@ export function gradeLabel(grade) {
 }
 
 
-// ── 3. SCORE PERCENT ─────────────────────────
-// Calculates percentage from correct / total.
-// Returns 0 if total is 0 (avoids divide-by-zero).
-//
-// Usage:
-//   calcPercent(28, 40)  → 70
 
 export function calcPercent(correct, total) {
   if (!total || total === 0) return 0;
@@ -59,13 +34,7 @@ export function calcPercent(correct, total) {
 }
 
 
-// ── 4. FORMAT TIME ────────────────────────────
-// Converts seconds into a readable time string.
-//
-// Usage:
-//   formatTime(125)    → "02:05"
-//   formatTime(3725)   → "1h 02m"
-//   formatTime(0)      → "00:00"
+
 
 export function formatTime(totalSeconds) {
   if (totalSeconds === null || totalSeconds === undefined) return "--:--";
@@ -81,13 +50,7 @@ export function formatTime(totalSeconds) {
 }
 
 
-// ── 5. FORMAT TIME LONG ──────────────────────
-// Same as formatTime but always writes out words.
-// Good for the results summary sentence.
-//
-// Usage:
-//   formatTimeLong(125)   → "2 min 5 sec"
-//   formatTimeLong(3601)  → "1 hr 0 min"
+
 
 export function formatTimeLong(totalSeconds) {
   if (!totalSeconds) return "0 sec";
@@ -101,17 +64,10 @@ export function formatTimeLong(totalSeconds) {
 }
 
 
-// ── 6. SHUFFLE ARRAY ─────────────────────────
-// Returns a NEW shuffled copy of an array.
-// Uses the Fisher-Yates algorithm.
-// Does NOT mutate the original.
-//
 
-// Usage:
-//   shuffleArray([1, 2, 3, 4])  → [3, 1, 4, 2] (random)
 
 export function shuffleArray(array) {
-  const arr = [...array]; // copy — never mutate source
+  const arr = [...array]; 
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -120,12 +76,6 @@ export function shuffleArray(array) {
 }
 
 
-// ── 7. PICK RANDOM QUESTIONS ─────────────────
-// Picks `count` random questions from an array,
-// then shuffles the order.
-//
-// Usage:
-//   pickQuestions(allBiologyQs, 40)
 
 export function pickQuestions(questions, count) {
   const shuffled = shuffleArray(questions);
@@ -133,13 +83,7 @@ export function pickQuestions(questions, count) {
 }
 
 
-// ── 8. BUILD OPTIONS OBJECT ──────────────────
-// Converts a flat question row from Supabase
-// into the { A, B, C, D } shape QuestionCard expects.
-//
-// Usage:
-//   buildOptions(row)
-//   → { A: "...", B: "...", C: "...", D: "..." }
+
 
 export function buildOptions(question) {
   return {
@@ -151,12 +95,6 @@ export function buildOptions(question) {
 }
 
 
-// ── 9. SCORE SUMMARY ─────────────────────────
-// Takes the answers map { questionId: "A"|"B"|"C"|"D" }
-// and the questions array, returns a full summary object.
-//
-// Usage:
-//   scoreSummary(answersMap, questions)
 
 export function scoreSummary(answersMap, questions) {
   let correct   = 0;
@@ -182,12 +120,7 @@ export function scoreSummary(answersMap, questions) {
 }
 
 
-// ── 10. TRUNCATE TEXT ────────────────────────
-// Cuts text to `maxLen` characters with ellipsis.
-// Useful for long question previews.
-//
-// Usage:
-//   truncate("Which of the following...", 60)
+
 
 export function truncate(text = "", maxLen = 80) {
   if (text.length <= maxLen) return text;
@@ -195,16 +128,13 @@ export function truncate(text = "", maxLen = 80) {
 }
 
 
-// ── 11. CAPITALISE FIRST LETTER ──────────────
 export function capitalise(str = "") {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 
-// ── 12. GET STREAM SUBJECTS ──────────────────
-// Returns the list of subjects available for a stream.
-// Matches the subject slugs in your Supabase subjects table.
+
 
 const STREAM_SUBJECTS = {
   science: [

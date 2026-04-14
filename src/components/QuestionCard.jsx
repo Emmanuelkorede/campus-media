@@ -21,7 +21,7 @@ export default function QuestionCard({
   reviewMode = false,
 }) {
   function getOptionStyle(letter) {
-    // ── review mode: show green/red ─────────
+    
     if (reviewMode && correctOption) {
       if (letter === correctOption) {
         return "border-green-400 bg-green-50 text-green-800 shadow-sm shadow-green-100";
@@ -32,7 +32,7 @@ export default function QuestionCard({
       return "border-gray-200 bg-white text-gray-500 opacity-60";
     }
 
-    // ── active quiz ─────────────────────────
+    
     if (letter === selected) {
       return "border-teal-400 bg-teal-50 text-teal-800 shadow-md shadow-teal-100";
     }
@@ -52,9 +52,8 @@ export default function QuestionCard({
   return (
     <div className="w-full max-w-2xl mx-auto">
 
-      {/* ── Badges row ──────────────────────── */}
+      
       <div className="flex items-center gap-2 mb-4">
-        {/* Difficulty */}
         <span className={`
           text-[11px] font-bold uppercase tracking-wider
           px-2.5 py-1 rounded-full
@@ -63,20 +62,18 @@ export default function QuestionCard({
           {difficulty}
         </span>
 
-        {/* Subject */}
+
         <span className="text-[11px] font-bold uppercase tracking-wider
                           px-2.5 py-1 rounded-full bg-blue-100 text-blue-700">
           {subject}
         </span>
       </div>
 
-      {/* ── Question text ───────────────────── */}
       <p className="text-gray-800 font-semibold text-base sm:text-lg leading-snug mb-6">
         <span className="text-teal-500 font-black mr-1.5">Question {questionNumber} of {totalQuestions}.</span>
         {questionText}
       </p>
 
-      {/* ── Options ─────────────────────────── */}
       <div className="flex flex-col gap-3">
         {LETTERS.map((letter) => {
           const text = options[letter];
@@ -96,7 +93,7 @@ export default function QuestionCard({
                 ${reviewMode ? "cursor-default" : "cursor-pointer"}
               `}
             >
-              {/* Letter badge */}
+
               <span className={`
                 w-7 h-7 rounded-xl shrink-0
                 flex items-center justify-center
@@ -106,12 +103,12 @@ export default function QuestionCard({
                 {letter}
               </span>
 
-              {/* Option text */}
+              
               <span className="text-sm sm:text-base font-medium leading-snug">
                 {text}
               </span>
 
-              {/* Correct / Wrong icon in review mode */}
+              
               {reviewMode && correctOption && letter === correctOption && (
                 <svg className="w-5 h-5 fill-green-500 ml-auto shrink-0" viewBox="0 0 20 20">
                   <path fillRule="evenodd"
