@@ -79,6 +79,46 @@ export function QuizProvider({ children }) {
     setStatus("active");
   }, []); // eslint-disable-line
 
+  // ADDED: startPackTest function
+  const startPackTest = useCallback((questionsArray, durationSecs = 1200) => {
+    setStatus("loading");
+    setError(null);
+    setResult(null);
+    setAnswers({});
+    setCurrentIndex(0);
+
+    if (!questionsArray?.length) {
+      setError("No questions found in this pack.");
+      setStatus("idle");
+      return;
+    }
+
+    // Set the questions directly from the pack
+    setQuestions(questionsArray);
+
+    // Set the subject names for the results summary
+    const uniqueSubjects = [...new Set(questionsArray.map((q) => q.subject))];
+    setSubjectNames(uniqueSubjects);
+
+    // Timer logic (standard 20 mins if not specified)
+    setSecondsLeft(durationSecs);
+    setTotalDuration(durationSecs);
+
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setSecondsLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          handleAutoSubmit(); // This uses your existing auto-submit logic
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    setStatus("active");
+  }, []); // eslint-disable-line
+
   // ── SELECT ANSWER ─────────────────────────
   const selectAnswer = useCallback((questionId, letter) => {
     setAnswers((prev) => ({ ...prev, [questionId]: letter }));
@@ -189,6 +229,7 @@ export function QuizProvider({ children }) {
     error,
     subjectNames,
     startTest,
+    startPackTest, // Added to context value
     selectAnswer,
     goToQuestion,
     nextQuestion,

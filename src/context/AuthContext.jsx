@@ -2,27 +2,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
-// ─────────────────────────────────────────────
-//  AUTH CONTEXT
-//
-//  Manages the logged-in student (or admin).
-//  Uses Supabase to check name + password.
-//  Persists the session in localStorage so
-//  the user stays logged in on page refresh.
-//
-//  Wrap your entire app in <AuthProvider>
-//  then read state anywhere with useAuth().
-//
-//  What's stored in context:
-//    user     – { id, name, stream, role } | null
-//    loading  – true while resolving session on mount
-//
-//  What you can call:
-//    login(name, password)  → { success, error }
-//    logout()
-//    setStream(stream)      → saves stream to DB + context
-// ─────────────────────────────────────────────
-
 const LOCAL_KEY = "campusmedia_user"; // localStorage key
 
 const AuthContext = createContext(null);
@@ -33,17 +12,40 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // ── Rehydrate from localStorage on mount ──
-  useEffect(() => {
-    const stored = localStorage.getItem(LOCAL_KEY);
-    if (stored) {
-      try {
-        setUser(JSON.parse(stored));
-      } catch {
-        localStorage.removeItem(LOCAL_KEY);
-      }
-    }
-    setLoading(false);
-  }, []);
+// ── Rehydrate + Verify from DB on mount ──
+ useEffect(() => {
+ const verifyUser = async () => {
+ const stored = localStorage.getItem(LOCAL_KEY);
+      
+ if (stored) {
+ try {
+ const parsedUser = JSON.parse(stored);
+
+          // Check if this user still exists in your new database
+          const { data, error } = await supabase
+            .from("users")
+            .select("id")
+            .eq("id", parsedUser.id)
+            .maybeSingle();
+
+          if (error || !data) {
+            // User was deleted or database was reset!
+            localStorage.removeItem(LOCAL_KEY);
+            setUser(null);
+          } else {
+            // User is still valid
+            setUser(parsedUser);
+          }
+ } catch {
+ localStorage.removeItem(LOCAL_KEY);
+          setUser(null);
+ }
+ }
+ setLoading(false);
+ };
+
+verifyUser();
+ }, []);
 
   // ── Persist user to localStorage ──────────
   function persist(userObj) {

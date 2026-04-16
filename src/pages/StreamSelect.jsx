@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 import StreamCard from "../components/StreamCard";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const STREAMS = [
   {
@@ -109,7 +108,6 @@ export default function StreamSelect() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

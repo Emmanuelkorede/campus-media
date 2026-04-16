@@ -52,6 +52,17 @@ export default function AdminDashboard() {
   const [search, setSearch] = useState("");
   const [stream, setStream] = useState("all");
 
+  // ── FEED STATES ───────────────────────────
+  const [feedTitle, setFeedTitle] = useState("");
+  const [feedContent, setFeedContent] = useState("");
+  const [feedTag, setFeedTag] = useState("News");
+  const [posting, setPosting] = useState(false);
+
+  // ── EXAM PACK STATES ──────────────────────
+  const [packTitle, setPackTitle] = useState("");
+  const [packTag, setPackTag] = useState("");
+  const [packSubject, setPackSubject] = useState("");
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     const { data: usersData } = await supabase
@@ -91,6 +102,40 @@ export default function AdminDashboard() {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
+  // ── ACTIONS ────────────────────────────────
+  const handlePostFeed = async (e) => {
+    e.preventDefault();
+    setPosting(true);
+
+    const { error } = await supabase
+      .from("announcements")
+      .insert([{ title: feedTitle, content: feedContent, tag: feedTag }]);
+
+    if (error) {
+      alert("Error posting: " + error.message);
+    } else {
+      alert("Feed updated successfully!");
+      setFeedTitle("");
+      setFeedContent("");
+      fetchData();
+    }
+    setPosting(false);
+  };
+
+  const handleCreatePack = async (e) => {
+    e.preventDefault();
+    const { error } = await supabase
+      .from("exam_packs")
+      .insert([{ title: packTitle, subject: packSubject, subject_tag: packTag }]);
+
+    if (!error) {
+      alert("CBT Pack Created!");
+      setPackTitle(""); setPackTag(""); setPackSubject("");
+    } else {
+      alert("Error: " + error.message);
+    }
+  };
+
   const filteredStudents = students.filter(s => 
     s.name.toLowerCase().includes(search.toLowerCase()) && (stream === "all" || s.stream === stream)
   );
@@ -114,31 +159,14 @@ export default function AdminDashboard() {
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-          <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-  {/* Graduation Cap Base */}
-
-  <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
-
-  <path d="M25 53V70C25 70 35 75 50 75C65 75 75 70 75 70V53" stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-
-  
-
-  {/* Tassel */}
-
-  <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-
-
-
-  {/* Camera Aperture / Lens (The "Media" Element) */}
-
-  <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
-
-  <circle cx="50" cy="45" r="12" stroke="#f59e0b" strokeWidth="3" strokeDasharray="6 4" />
-
-  <circle cx="50" cy="45" r="4" fill="#1e293b" />
-
-</svg>
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 45L50 25L90 45L50 65L10 45Z" fill="#2563eb" />
+              <path d="M25 53V70C25 70 35 75 50 75C65 75 75 70 75 70V53" stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M90 45V65M87 65H93V75L90 80L87 75V65Z" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="50" cy="45" r="18" fill="white" stroke="#1e293b" strokeWidth="2" />
+              <circle cx="50" cy="45" r="12" stroke="#f59e0b" strokeWidth="3" strokeDasharray="6 4" />
+              <circle cx="50" cy="45" r="4" fill="#1e293b" />
+            </svg>
             <div className="flex flex-col">
               <span className="font-black text-sm text-slate-800 tracking-tight leading-none">Admin Dashboard</span>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">job.exe system</span>
@@ -163,7 +191,7 @@ export default function AdminDashboard() {
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-10">
         {/* ── Tabs ──────────────────────────── */}
         <div className="flex bg-slate-200/50 p-1.5 rounded-[1.25rem] mb-10 w-fit gap-1 border border-slate-200/30">
-          {["overview", "students", "sessions"].map((t) => (
+          {["overview", "students", "sessions", "feeds", "exam packs"].map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -223,7 +251,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Similar updates applied to Students and Sessions tabs... */}
         {tab === "students" && (
            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
              <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -303,6 +330,94 @@ export default function AdminDashboard() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── FEEDS TAB ─────────────────────────── */}
+        {tab === "feeds" && (
+          <div className="max-w-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+              <h2 className="font-black text-slate-800 text-lg mb-1">Create Announcement</h2>
+              <p className="text-slate-400 text-xs mb-6 uppercase font-bold tracking-widest">Post to the student feed</p>
+              
+              <form onSubmit={handlePostFeed} className="space-y-4">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Title</label>
+                  <input 
+                    type="text" 
+                    required
+                    className="w-full bg-slate-50 border border-slate-100 p-4 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/5 transition-all"
+                    placeholder="e.g. Monday Morning Prayer"
+                    value={feedTitle}
+                    onChange={e => setFeedTitle(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Category Tag</label>
+                  <select 
+                    className="w-full bg-slate-50 border border-slate-100 p-4 rounded-2xl text-sm font-bold outline-none cursor-pointer"
+                    value={feedTag}
+                    onChange={e => setFeedTag(e.target.value)}
+                  >
+                    <option value="News">General News</option>
+                    <option value="Prayer">Morning Prayer</option>
+                    <option value="Timetable">Timetable Update</option>
+                    <option value="Urgent">Urgent Notice</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Message Content</label>
+                  <textarea 
+                    required
+                    rows="4"
+                    className="w-full bg-slate-50 border border-slate-100 p-4 rounded-2xl text-sm font-medium outline-none focus:ring-4 focus:ring-blue-500/5 transition-all"
+                    placeholder="Write your update here..."
+                    value={feedContent}
+                    onChange={e => setFeedContent(e.target.value)}
+                  />
+                </div>
+
+                <button 
+                  disabled={posting}
+                  className="w-full bg-slate-900 text-white font-black py-4 rounded-2xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/10 disabled:bg-slate-300"
+                >
+                  {posting ? "Publishing..." : "Post to Feed"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ── EXAM PACKS TAB ────────────────────── */}
+        {tab === "exam packs" && (
+          <div className="max-w-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+              <h2 className="font-black text-slate-800 text-lg mb-1">Create Exam Pack</h2>
+              <p className="text-slate-400 text-xs mb-6 uppercase font-bold tracking-widest">Link a tag to the CBT list</p>
+              
+              <form onSubmit={handleCreatePack} className="space-y-4">
+                <input 
+                  type="text" placeholder="Display Title (e.g. JAMB English Mock)"
+                  className="w-full bg-slate-50 border border-slate-100 p-4 rounded-2xl text-sm font-bold outline-none"
+                  value={packTitle} onChange={e => setPackTitle(e.target.value)}
+                />
+                <input 
+                  type="text" placeholder="Subject Category (e.g. Use of English)"
+                  className="w-full bg-slate-50 border border-slate-100 p-4 rounded-2xl text-sm font-bold outline-none"
+                  value={packSubject} onChange={e => setPackSubject(e.target.value)}
+                />
+                <input 
+                  type="text" placeholder="Subject Tag (MUST MATCH YOUR CSV SUBJECT)"
+                  className="w-full bg-blue-50 border border-blue-100 p-4 rounded-2xl text-sm font-bold text-blue-700 outline-none"
+                  value={packTag} onChange={e => setPackTag(e.target.value)}
+                />
+                <button className="w-full bg-blue-600 text-white font-black py-4 rounded-2xl transition-all">
+                  Create Link
+                </button>
+              </form>
             </div>
           </div>
         )}

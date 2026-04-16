@@ -194,7 +194,7 @@ export default function TestSetup() {
           </div>
         )}
       </main>
-      <Footer />
+      
     </div>
   );
 }
